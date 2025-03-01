@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace stinkyModel;
+namespace cleanModel;
 
 public partial class WorldCitiesSourceContext : DbContext
 {
@@ -27,8 +27,6 @@ public partial class WorldCitiesSourceContext : DbContext
     {
         modelBuilder.Entity<City>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
-
             entity.HasOne(d => d.Country).WithMany(p => p.Cities)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_City_Country");
