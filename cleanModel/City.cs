@@ -17,6 +17,10 @@ public partial class City
     [StringLength(50)]
     public string Name { get; set; } = null!;
 
+    public decimal Lat { get; set; }
+
+    public decimal Lon { get; set; }
+
     [Column("population")]
     public int Population { get; set; }
 
