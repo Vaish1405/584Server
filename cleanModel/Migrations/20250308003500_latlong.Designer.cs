@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using cleanModel;
 
@@ -10,9 +11,11 @@ using cleanModel;
 namespace cleanModel.Migrations
 {
     [DbContext(typeof(WorldCitiesSourceContext))]
-    partial class WorldCitiesSourceContextModelSnapshot : ModelSnapshot
+    [Migration("20250308003500_latlong")]
+    partial class latlong
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
