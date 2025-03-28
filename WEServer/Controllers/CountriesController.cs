@@ -29,8 +29,13 @@ namespace WEServer.Controllers
         }
 
         // GET: api/Countries/5
+<<<<<<< HEAD
         [HttpGet("GetPopulation/{id}")]
         public async Task<ActionResult<CountryPopulation>> GetCountryPopulation(int id)
+=======
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Country>> GetCountry(int id)
+>>>>>>> b3c7bd7957c14b0718159d8105ddb752f5098339
         {
             var country = await _context.Countries.FindAsync(id);
 
@@ -39,6 +44,7 @@ namespace WEServer.Controllers
                 return NotFound();
             }
 
+<<<<<<< HEAD
             return new CountryPopulation
             {
                 Id = country.Id,
@@ -48,6 +54,25 @@ namespace WEServer.Controllers
                 Population = country.Cities.Sum(c => c.Population)
             };
 
+=======
+            return country;
+        }
+
+        [HttpGet("GetPopulation/{id}")]
+        public async Task<ActionResult<CountryPopulation>> GetCountryPopulation(int id)
+        {
+            CountryPopulation country = await _context.Countries.Where(country => country.Id == id )
+                .Select(country => new CountryPopulation
+                {
+                    Id = country.Id,
+                    Name = country.Name,
+                    Iso2 = country.Iso2,
+                    Iso3 = country.Iso3,
+                    Population = country.Cities.Sum(c => c.Population),
+                    CityCount = country.Cities.Count()
+                }).SingleAsync();
+            return country;
+>>>>>>> b3c7bd7957c14b0718159d8105ddb752f5098339
         }
 
         // PUT: api/Countries/5
