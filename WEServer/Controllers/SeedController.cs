@@ -10,19 +10,32 @@ using CsvHelper.Configuration;
 using System.Globalization;
 using WEServer.Data;
 using CsvHelper;
+using Microsoft.AspNetCore.Identity;
 
 namespace WEServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SeedController(WorldCitiesSourceContext context, IHostEnvironment environment) : ControllerBase
+    public class SeedController(WorldCitiesSourceContext context, IHostEnvironment environment, 
+        UserManager<WorldCitiesUser> userManager) : ControllerBase
     {
         string _pathName = Path.Combine(environment.ContentRootPath, "Data/worldcities.csv");
-<<<<<<< HEAD
-        [HttpPost("Countries")]                                                                                                                                                                                                                  
-=======
+
+        [HttpPost("Users")]
+        public async Task ImportUsersAsync()
+        {
+            // user and admin passwords will be in notes
+            WorldCitiesUser user = new()
+            {
+                UserName = "user",
+                Email = "user@email.com",
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+            IdentityResult result = await userManager.CreateAsync(user, "Password0!");
+            int resultSave = await context.SaveChangesAsync();
+        }
+
         [HttpPost("Countries")]
->>>>>>> b3c7bd7957c14b0718159d8105ddb752f5098339
         public async Task<ActionResult> ImportCountriesAsync()
         {
             // create a lookup dictionary containing all the countries already existing 
@@ -38,14 +51,8 @@ namespace WEServer.Controllers
 
             using StreamReader reader = new(_pathName);
             using CsvReader csv = new(reader, config);
-
-<<<<<<< HEAD
-            List<WorldCitiesDTO> records = csv.GetRecords<WorldCitiesDTO>().ToList();
-            foreach (WorldCitiesDTO record in records)
-=======
             List<WorldCitiesDto> records = csv.GetRecords<WorldCitiesDto>().ToList();
             foreach (WorldCitiesDto record in records)
->>>>>>> b3c7bd7957c14b0718159d8105ddb752f5098339
             {
                 if (countriesByName.ContainsKey(record.country))
                 {
@@ -82,13 +89,8 @@ namespace WEServer.Controllers
             using (StreamReader reader = new(_pathName))
             using (CsvReader csv = new(reader, config))
             {
-<<<<<<< HEAD
-                IEnumerable<WorldCitiesDTO>? records = csv.GetRecords<WorldCitiesDTO>();
-                foreach (WorldCitiesDTO record in records)
-=======
                 IEnumerable<WorldCitiesDto>? records = csv.GetRecords<WorldCitiesDto>();
                 foreach (WorldCitiesDto record in records)
->>>>>>> b3c7bd7957c14b0718159d8105ddb752f5098339
                 {
                     if (!countries.TryGetValue(record.country, out Country? value))
                     {
