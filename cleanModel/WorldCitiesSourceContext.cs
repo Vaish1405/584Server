@@ -23,6 +23,10 @@ public partial class WorldCitiesSourceContext : IdentityDbContext<WorldCitiesUse
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        if (optionsBuilder.IsConfigured)
+        {
+            return;
+        }
         IConfigurationBuilder builder = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json");
 
